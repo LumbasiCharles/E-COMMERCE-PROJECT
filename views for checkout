@@ -1,0 +1,24 @@
+# store/views.py
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .cart import Cart
+from .forms import OrderForm
+from .models import Product
+
+@login_required
+def checkout(request):
+    cart = Cart(request)
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            # Handle payment gateway integration here (e.g., Stripe or PayPal)
+            # Implement payment gateway integration logic here
+            cart.clear()
+            return redirect('order_success')  # Redirect to order success page
+    else:
+        form = OrderForm()
+    return render(request, 'store/checkout.html', {'form': form, 'cart': cart})
+
+def order_success(request):
+    return render(request, 'store/order_success.html')

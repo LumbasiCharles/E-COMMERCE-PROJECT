@@ -1,0 +1,9 @@
+# store/forms.py
+
+from django import forms
+
+class OrderForm(forms.Form):
+    shipping_address = forms.CharField()
+    billing_address = forms.CharField()
+    payment_method = forms.ChoiceField(choices=[('stripe', 'Stripe'), ('paypal', 'PayPal')])
+    # Add more fields as needed
